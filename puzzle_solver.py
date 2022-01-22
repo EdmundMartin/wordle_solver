@@ -41,6 +41,8 @@ class Solver:
                     self.all_constraints.add(
                         CorrectLocation(inputs[1], int(inputs[2]))
                     )
+                elif inputs[0] == "solved":
+                    return
             except Exception:
                 print("Invalid Input please try again")
 
