@@ -10,7 +10,7 @@ from puzzle_solver import read_source_file
 
 class SeleniumSolver:
 
-    def __init__(self, driver, word_bank: WordBank):
+    def __init__(self, driver: webdriver.Chrome, word_bank: WordBank):
         self.driver = driver
         self.word_bank = word_bank
 
@@ -53,6 +53,11 @@ class SeleniumSolver:
                 constraints.add(CorrectLocation(guess[idx], idx))
         return constraints
 
+    def check_victory(self, constraints):
+        if len(constraints) == 5 and all([c is isinstance(c, CorrectLocation) for c in constraints]):
+            return True
+        return False
+
     def solve(self):
         count = 0
         self.load_wordle()
@@ -71,6 +76,10 @@ class SeleniumSolver:
                     guess_word_exists = True
                 else:
                     self.clear_guess()
+                if self.check_victory(new_constraints):
+                    print("We solved it!")
+                    self.driver.close()
+                    return
                 constraints = constraints.union(new_constraints)
             count += 1
 

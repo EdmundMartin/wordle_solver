@@ -51,7 +51,7 @@ class Entry:
 
 class WordBank:
     def __init__(self):
-        self.initial_guess = "works"
+        self.initial_guess = "adieu"
         self.all_words = set()
         self.entries: Dict[str, Entry] = {}
         for char in ascii_lowercase:
@@ -60,14 +60,10 @@ class WordBank:
     @classmethod
     def from_word_list(cls, word_list: List[str]):
         bank = cls()
-        first_guesses = []
         for word in word_list:
-            if len(set(word)) == 5:
-                first_guesses.append(word)
             bank.all_words.add(word)
             for char in word:
                 bank.entries[char].add_word(word)
-        bank.initial_guess = choice(first_guesses)
         return bank
 
     def first_guess(self) -> str:
